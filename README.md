@@ -55,3 +55,64 @@ Learned:
 Starting small but staying consistent..
 
 
+# Day 2 - Train Test Split and Graph
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Dataset
+data = {
+    "Experience": [1,2,3,4,5,6,7,8,9,10],
+    "Salary": [25000,30000,35000,40000,45000,
+               50000,55000,60000,65000,70000]
+}
+
+# Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Input and output
+X = df[["Experience"]]
+y = df["Salary"]
+
+# Split data into training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Create model
+model = LinearRegression()
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predict
+predictions = model.predict(X_test)
+
+# Print predictions
+print("Predictions:")
+print(predictions)
+
+# Accuracy score
+score = model.score(X_test, y_test)
+
+print("\nModel Accuracy:", score)
+
+# Graph
+plt.scatter(X, y)
+
+# Regression line
+plt.plot(X, model.predict(X))
+
+plt.xlabel("Experience")
+plt.ylabel("Salary")
+plt.title("Experience vs Salary")
+
+plt.show()
+
+
+
+
