@@ -474,3 +474,57 @@ if new_prediction[0] == 1:
     print("Student Will Pass")
 else:
     print("Student Will Fail")
+
+# Day 9 - Support Vector Machine (SVM)
+
+# Import libraries
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score
+
+# Dataset
+data = {
+    "Hours": [1,2,3,4,5,6,7,8,9,10],
+    "Pass":  [0,0,0,0,1,1,1,1,1,1]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Input and output
+X = df[["Hours"]]
+y = df["Pass"]
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Create SVM model
+model = SVC(kernel="linear")
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predictions
+predictions = model.predict(X_test)
+
+# Accuracy
+accuracy = accuracy_score(y_test, predictions)
+
+# Print results
+print("Predictions:", predictions)
+
+print("Accuracy:", accuracy)
+
+# Predict new student
+new_prediction = model.predict([[5]])
+
+if new_prediction[0] == 1:
+    print("Student Will Pass")
+else:
+    print("Student Will Fail")
