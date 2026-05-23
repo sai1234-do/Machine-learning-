@@ -528,3 +528,50 @@ if new_prediction[0] == 1:
     print("Student Will Pass")
 else:
     print("Student Will Fail")
+
+# Day 10 - KMeans Clustering
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.cluster import KMeans
+
+# Dataset
+data = {
+    "Age": [18,19,20,21,22,45,46,47,48,50],
+    "Spending": [15,18,16,20,22,65,70,68,72,75]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Input features
+X = df[["Age", "Spending"]]
+
+# Create KMeans model
+model = KMeans(
+    n_clusters=2,
+    random_state=42
+)
+
+# Train model
+model.fit(X)
+
+# Cluster predictions
+clusters = model.predict(X)
+
+# Add clusters to dataframe
+df["Cluster"] = clusters
+
+# Print dataset
+print(df)
+
+# Visualization
+plt.scatter(df["Age"], df["Spending"], c=clusters)
+
+plt.xlabel("Age")
+plt.ylabel("Spending Score")
+plt.title("KMeans Clustering")
+
+plt.show()
