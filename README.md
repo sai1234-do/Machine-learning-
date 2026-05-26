@@ -575,3 +575,53 @@ plt.ylabel("Spending Score")
 plt.title("KMeans Clustering")
 
 plt.show()
+
+# Day 11 - PCA (Principal Component Analysis)
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# Dataset
+data = {
+    "Math":    [90,85,88,75,60,95,70,65],
+    "Science": [92,80,85,78,65,98,72,60],
+    "English": [85,78,82,70,58,96,68,62]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Scale data
+scaler = StandardScaler()
+
+scaled_data = scaler.fit_transform(df)
+
+# Apply PCA
+pca = PCA(n_components=2)
+
+principal_components = pca.fit_transform(scaled_data)
+
+# Create new DataFrame
+pca_df = pd.DataFrame(
+    data=principal_components,
+    columns=["PC1", "PC2"]
+)
+
+# Print transformed data
+print(pca_df)
+
+# Visualization
+plt.scatter(
+    pca_df["PC1"],
+    pca_df["PC2"]
+)
+
+plt.xlabel("Principal Component 1")
+plt.ylabel("Principal Component 2")
+plt.title("PCA Visualization")
+
+plt.show()
