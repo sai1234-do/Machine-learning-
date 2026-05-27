@@ -625,3 +625,57 @@ plt.ylabel("Principal Component 2")
 plt.title("PCA Visualization")
 
 plt.show()
+
+# Day 12 - Feature Scaling
+
+# Import libraries
+import pandas as pd
+
+from sklearn.preprocessing import (
+    StandardScaler,
+    MinMaxScaler
+)
+
+# Dataset
+data = {
+    "Age": [18,20,25,30,35],
+    "Salary": [20000,30000,50000,80000,120000]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+print("Original Data:\n")
+print(df)
+
+# -----------------------------
+# Standard Scaling
+# -----------------------------
+
+standard_scaler = StandardScaler()
+
+standard_scaled = standard_scaler.fit_transform(df)
+
+standard_df = pd.DataFrame(
+    standard_scaled,
+    columns=df.columns
+)
+
+print("\nStandard Scaled Data:\n")
+print(standard_df)
+
+# -----------------------------
+# MinMax Scaling
+# -----------------------------
+
+minmax_scaler = MinMaxScaler()
+
+minmax_scaled = minmax_scaler.fit_transform(df)
+
+minmax_df = pd.DataFrame(
+    minmax_scaled,
+    columns=df.columns
+)
+
+print("\nMinMax Scaled Data:\n")
+print(minmax_df)
