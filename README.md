@@ -679,3 +679,32 @@ minmax_df = pd.DataFrame(
 
 print("\nMinMax Scaled Data:\n")
 print(minmax_df)
+
+# Day 13 - Handling Missing Values
+
+import pandas as pd
+
+from sklearn.impute import SimpleImputer
+
+# Dataset with missing values
+data = {
+    "Age": [22, 25, None, 30, 35],
+    "Salary": [25000, None, 40000, 50000, None]
+}
+
+df = pd.DataFrame(data)
+
+print("Original Dataset:\n")
+print(df)
+
+# Create imputer
+imputer = SimpleImputer(strategy="mean")
+
+# Fill missing values
+df_filled = pd.DataFrame(
+    imputer.fit_transform(df),
+    columns=df.columns
+)
+
+print("\nDataset After Filling Missing Values:\n")
+print(df_filled)
