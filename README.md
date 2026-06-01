@@ -708,3 +708,71 @@ df_filled = pd.DataFrame(
 
 print("\nDataset After Filling Missing Values:\n")
 print(df_filled)
+
+# Day 14 - Complete ML Pipeline
+
+import pandas as pd
+
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Dataset
+data = {
+    "Hours": [1, 2, 3, None, 5, 6, 7, 8, None, 10],
+    "Pass":  [0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
+}
+
+df = pd.DataFrame(data)
+
+print("Original Dataset:\n")
+print(df)
+
+# Step 1: Handle Missing Values
+imputer = SimpleImputer(strategy="mean")
+
+df["Hours"] = imputer.fit_transform(df[["Hours"]])
+
+# Step 2: Features and Target
+X = df[["Hours"]]
+y = df["Pass"]
+
+# Step 3: Feature Scaling
+scaler = StandardScaler()
+
+X_scaled = scaler.fit_transform(X)
+
+# Step 4: Train Test Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Step 5: Train Model
+model = LogisticRegression()
+
+model.fit(X_train, y_train)
+
+# Step 6: Predictions
+predictions = model.predict(X_test)
+
+# Step 7: Accuracy
+accuracy = accuracy_score(y_test, predictions)
+
+print("\nPredictions:")
+print(predictions)
+
+print("\nAccuracy:")
+print(accuracy)
+
+# New Prediction
+new_student = scaler.transform([[7]])
+
+result = model.predict(new_student)
+
+if result[0] ==
