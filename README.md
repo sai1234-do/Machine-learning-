@@ -776,3 +776,62 @@ new_student = scaler.transform([[7]])
 result = model.predict(new_student)
 
 if result[0] ==
+
+# Day 15 - Iris Flower Classification
+
+from sklearn.datasets import load_iris
+
+from sklearn.model_selection import train_test_split
+
+from sklearn.preprocessing import StandardScaler
+
+from sklearn.linear_model import LogisticRegression
+
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+iris = load_iris()
+
+# Features
+X = iris.data
+
+# Target
+y = iris.target
+
+# Scale features
+scaler = StandardScaler()
+
+X_scaled = scaler.fit_transform(X)
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X_scaled,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Create model
+model = LogisticRegression()
+
+# Train model
+model.fit(X_train, y_train)
+
+# Predictions
+predictions = model.predict(X_test)
+
+# Accuracy
+accuracy = accuracy_score(y_test, predictions)
+
+print("Accuracy:", accuracy)
+
+# Predict a new flower
+sample = [[5.1, 3.5, 1.4, 0.2]]
+
+sample_scaled = scaler.transform(sample)
+
+result = model.predict(sample_scaled)
+
+flower_name = iris.target_names[result[0]]
+
+print("Predicted Flower:", flower_name)
