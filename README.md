@@ -835,3 +835,67 @@ result = model.predict(sample_scaled)
 flower_name = iris.target_names[result[0]]
 
 print("Predicted Flower:", flower_name)
+
+Day 16 — Titanic Survival Prediction 🚢
+This is one of the most famous ML datasets.
+Goal:
+Predict whether a passenger survived the Titanic disaster.
+output :
+0 → Did Not Survive
+1 → Survived
+code:
+
+from sklearn.datasets import fetch_openml
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+
+# Load dataset
+titanic = fetch_openml("titanic", version=1, as_frame=True)
+
+df = titanic.frame
+
+# Select columns
+df = df[["sex", "age", "pclass", "survived"]]
+
+# Remove missing values
+df = df.dropna()
+
+# Encode gender
+encoder = LabelEncoder()
+
+df["sex"] = encoder.fit_transform(df["sex"])
+
+# Features and target
+X = df[["sex", "age", "pclass"]]
+y = df["survived"]
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Model
+model = DecisionTreeClassifier()
+
+model.fit(X_train, y_train)
+
+# Predictions
+predictions = model.predict(X_test)
+
+# Accuracy
+accuracy = accuracy_score(y_test, predictions)
+
+print("Accuracy:", accuracy)
+
+# New passenger prediction
+sample = [[0, 25, 1]]
+
+result = model.predict(sample)
+
+print("Survived Prediction:", result[0])
