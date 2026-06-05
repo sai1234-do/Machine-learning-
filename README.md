@@ -899,3 +899,55 @@ sample = [[0, 25, 1]]
 result = model.predict(sample)
 
 print("Survived Prediction:", result[0])
+
+day17_house_price_prediction.py
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
+
+# Dataset
+data = {
+    "Size": [1000, 1200, 1500, 1800, 2000, 2200, 2500],
+    "Bedrooms": [2, 2, 3, 3, 4, 4, 5],
+    "Age": [10, 8, 7, 5, 4, 3, 2],
+    "Price": [50, 60, 75, 90, 100, 115, 130]
+}
+
+df = pd.DataFrame(data)
+
+# Features
+X = df[["Size", "Bedrooms", "Age"]]
+
+# Target
+y = df["Price"]
+
+# Split
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Model
+model = LinearRegression()
+
+# Train
+model.fit(X_train, y_train)
+
+# Predict
+predictions = model.predict(X_test)
+
+# Error
+mae = mean_absolute_error(y_test, predictions)
+
+print("Mean Absolute Error:", mae)
+
+# New House Prediction
+house = [[2100, 4, 3]]
+
+predicted_price = model.predict(house)
+
+print("Predicted Price:", predicted_price[0])
