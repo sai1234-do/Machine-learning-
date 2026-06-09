@@ -951,3 +951,45 @@ house = [[2100, 4, 3]]
 predicted_price = model.predict(house)
 
 print("Predicted Price:", predicted_price[0])
+
+day18_spam_email_detector.py
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+# Dataset
+emails = [
+    "Win a free iPhone now",
+    "Congratulations you won a lottery",
+    "Claim your prize today",
+    "Meeting at 4 PM",
+    "Project submission tomorrow",
+    "Let's discuss machine learning"
+]
+
+labels = [
+    "Spam",
+    "Spam",
+    "Spam",
+    "Not Spam",
+    "Not Spam",
+    "Not Spam"
+]
+
+# Convert text into numbers
+vectorizer = CountVectorizer()
+
+X = vectorizer.fit_transform(emails)
+
+# Train model
+model = MultinomialNB()
+
+model.fit(X, labels)
+
+# Test email
+new_email = ["Free lottery prize waiting for you"]
+
+new_email_vector = vectorizer.transform(new_email)
+
+prediction = model.predict(new_email_vector)
+
+print("Prediction:", prediction[0])
