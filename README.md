@@ -993,3 +993,61 @@ new_email_vector = vectorizer.transform(new_email)
 prediction = model.predict(new_email_vector)
 
 print("Prediction:", prediction[0])
+
+day19_house_price_predictor.py
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
+
+# Dataset
+data = {
+    "Area": [1000, 1200, 1500, 1800, 2000, 2200, 2500],
+    "Bedrooms": [2, 2, 3, 3, 4, 4, 5],
+    "Age": [15, 12, 10, 8, 5, 3, 2],
+    "Price": [30, 35, 45, 55, 65, 75, 90]
+}
+
+df = pd.DataFrame(data)
+
+# Features
+X = df[["Area", "Bedrooms", "Age"]]
+
+# Target
+y = df["Price"]
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# Model
+model = LinearRegression()
+
+# Train
+model.fit(X_train, y_train)
+
+# Predictions
+predictions = model.predict(X_test)
+
+# Error
+mae = mean_absolute_error(y_test, predictions)
+
+print("Mean Absolute Error:", mae)
+
+# Predict new house
+new_house = [[2100, 4, 4]]
+
+predicted_price = model.predict(new_house)
+
+print("Predicted House Price:", predicted_price)
+
+Mean Absolute Error (MAE)
+Instead of accuracy, regression uses error metrics.
+MAE measures:
+Plain text
+Average Prediction Error
