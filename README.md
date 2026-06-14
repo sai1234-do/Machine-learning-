@@ -1051,3 +1051,140 @@ Instead of accuracy, regression uses error metrics.
 MAE measures:
 Plain text
 Average Prediction Error
+
+Day 18 — Spam Email Detector 📧
+Problem
+Given an email:
+Plain text
+"Congratulations! You won ₹1,00,000"
+Predict:
+Plain text
+Spam
+or
+Plain text
+Not Spam
+
+import pandas as pd
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+# ----------------------------
+# Create Dataset
+# ----------------------------
+
+data = {
+    "Email": [
+        "Win money now",
+        "Claim your prize",
+        "Meeting at 3 PM",
+        "Project submission tomorrow",
+        "Free gift available",
+        "Let's discuss the assignment",
+        "Congratulations you won a lottery",
+        "See you in class",
+        "Earn money quickly",
+        "Important team meeting today",
+        "Get free coupons now",
+        "Submit your project report",
+        "Exclusive offer just for you",
+        "Class cancelled tomorrow",
+        "You have won cash prize",
+        "Assignment deadline extended"
+    ],
+
+    "Spam": [
+        1, 1, 0, 0,
+        1, 0, 1, 0,
+        1, 0, 1, 0,
+        1, 0, 1, 0
+    ]
+}
+
+df = pd.DataFrame(data)
+
+print("Dataset:")
+print(df)
+
+# ----------------------------
+# Features and Target
+# ----------------------------
+
+X = df["Email"]
+y = df["Spam"]
+
+# ----------------------------
+# Convert Text to Numbers
+# ----------------------------
+
+vectorizer = CountVectorizer()
+
+X_vectorized = vectorizer.fit_transform(X)
+
+# ----------------------------
+# Train Test Split
+# ----------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_vectorized,
+    y,
+    test_size=0.25,
+    random_state=42
+)
+
+# ----------------------------
+# Train Model
+# ----------------------------
+
+model = MultinomialNB()
+
+model.fit(X_train, y_train)
+
+# ----------------------------
+# Predictions
+# ----------------------------
+
+predictions = model.predict(X_test)
+
+# ----------------------------
+# Accuracy
+# ----------------------------
+
+accuracy = accuracy_score(y_test, predictions)
+
+print("\nAccuracy:", accuracy)
+
+# ----------------------------
+# Confusion Matrix
+# ----------------------------
+
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, predictions))
+
+# ----------------------------
+# Test New Emails
+# ----------------------------
+
+test_emails = [
+    "Congratulations you won free money",
+    "Project meeting tomorrow",
+    "Claim your cash reward now",
+    "Assignment submission today"
+]
+
+test_vectors = vectorizer.transform(test_emails)
+
+results = model.predict(test_vectors)
+
+print("\nEmail Predictions:")
+
+for email, result in zip(test_emails, results):
+
+    print("\nEmail:", email)
+
+    if result == 1:
+        print("Prediction: SPAM")
+    else:
+        print("Prediction: NOT SPAM")
