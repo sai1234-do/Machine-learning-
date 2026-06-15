@@ -1188,3 +1188,81 @@ for email, result in zip(test_emails, results):
         print("Prediction: SPAM")
     else:
         print("Prediction: NOT SPAM")
+
+# Day 19 - Student Performance Predictor
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error, r2_score
+
+# -------------------------
+# Dataset
+# -------------------------
+
+data = {
+    "StudyHours": [1,2,3,4,5,6,7,8,9,10],
+    "Attendance": [60,65,70,72,75,80,85,90,95,98],
+    "Assignments": [1,2,2,3,3,4,4,5,5,5],
+    "Score": [35,40,45,50,58,65,72,80,88,95]
+}
+
+df = pd.DataFrame(data)
+
+print("Dataset:\n")
+print(df)
+
+# -------------------------
+# Features and Target
+# -------------------------
+
+X = df[["StudyHours", "Attendance", "Assignments"]]
+y = df["Score"]
+
+# -------------------------
+# Train Test Split
+# -------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# -------------------------
+# Train Model
+# -------------------------
+
+model = LinearRegression()
+
+model.fit(X_train, y_train)
+
+# -------------------------
+# Predictions
+# -------------------------
+
+predictions = model.predict(X_test)
+
+# -------------------------
+# Evaluation
+# -------------------------
+
+mae = mean_absolute_error(y_test, predictions)
+
+r2 = r2_score(y_test, predictions)
+
+print("\nMean Absolute Error:", mae)
+
+print("R2 Score:", r2)
+
+# -------------------------
+# Predict New Student
+# -------------------------
+
+new_student = [[7, 85, 4]]
+
+predicted_score = model.predict(new_student)
+
+print("\nPredicted Score:", round(predicted_score[0], 2))
