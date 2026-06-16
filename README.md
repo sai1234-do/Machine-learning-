@@ -1,4 +1,4 @@
-# Machine-learning-
+9# Machine-learning-
 My daily machine  learning journey with notes, code, and mini projects in mobile phone 📱 
 
 Day-1
@@ -1266,3 +1266,71 @@ new_student = [[7, 85, 4]]
 predicted_score = model.predict(new_student)
 
 print("\nPredicted Score:", round(predicted_score[0], 2))
+
+# Day 20 - Customer Segmentation
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.cluster import KMeans
+
+# -------------------------
+# Dataset
+# -------------------------
+
+data = {
+    "Age": [20,22,25,27,30,35,40,42,45,50],
+    "Income": [20,25,30,35,40,60,65,70,75,80],
+    "SpendingScore": [80,85,78,82,75,50,45,40,35,30]
+}
+
+df = pd.DataFrame(data)
+
+print("Dataset:\n")
+print(df)
+
+# -------------------------
+# Features
+# -------------------------
+
+X = df[["Income", "SpendingScore"]]
+
+# -------------------------
+# KMeans Model
+# -------------------------
+
+model = KMeans(
+    n_clusters=2,
+    random_state=42
+)
+
+# Train
+model.fit(X)
+
+# Cluster Labels
+df["Cluster"] = model.labels_
+
+print("\nClustered Data:\n")
+print(df)
+
+# -------------------------
+# Visualization
+# -------------------------
+
+plt.scatter(
+    df["Income"],
+    df["SpendingScore"],
+    c=df["Cluster"]
+)
+
+plt.xlabel("Income")
+plt.ylabel("Spending Score")
+plt.title("Customer Segmentation")
+
+plt.show()
+Learned:
+customer grouping
+unsupervised learning
+clustering
+business applications of ml
+K-Means Groups similar customers
