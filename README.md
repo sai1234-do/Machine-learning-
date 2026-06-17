@@ -1334,3 +1334,82 @@ unsupervised learning
 clustering
 business applications of ml
 K-Means Groups similar customers
+
+# Day 21 - Movie Recommendation System
+
+import pandas as pd
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# -------------------------
+# Movie Dataset
+# -------------------------
+
+movies = {
+    "Movie": [
+        "Avengers",
+        "Iron Man",
+        "Captain America",
+        "Thor",
+        "Batman",
+        "Joker"
+    ],
+
+    "Genre": [
+        "action superhero marvel",
+        "action superhero marvel",
+        "action superhero marvel",
+        "action superhero marvel",
+        "action dc hero",
+        "drama thriller dc"
+    ]
+}
+
+df = pd.DataFrame(movies)
+
+print("Movies Dataset:\n")
+print(df)
+
+# -------------------------
+# Convert Text to Numbers
+# -------------------------
+
+vectorizer = CountVectorizer()
+
+feature_matrix = vectorizer.fit_transform(df["Genre"])
+
+# -------------------------
+# Similarity Matrix
+# -------------------------
+
+similarity_matrix = cosine_similarity(feature_matrix)
+
+# -------------------------
+# Recommendation Function
+# -------------------------
+
+def recommend(movie_name):
+
+    movie_index = df[df["Movie"] == movie_name].index[0]
+
+    similarity_scores = list(
+        enumerate(similarity_matrix[movie_index])
+    )
+
+    similarity_scores = sorted(
+        similarity_scores,
+        key=lambda x: x[1],
+        reverse=True
+    )
+
+    print(f"\nMovies similar to {movie_name}:\n")
+
+    for movie in similarity_scores[1:4]:
+        print(df.iloc[movie[0]]["Movie"])
+
+# -------------------------
+# Test Recommendation
+# -------------------------
+
+recommend("Avengers")
