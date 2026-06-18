@@ -1413,3 +1413,87 @@ def recommend(movie_name):
 # -------------------------
 
 recommend("Avengers")
+#Random Forest 
+# Day 22 - Heart Disease Prediction
+
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# -------------------------
+# Dataset
+# -------------------------
+
+data = {
+    "Age": [25,30,35,40,45,50,55,60,65,70],
+    "BP": [120,122,125,130,135,140,145,150,155,160],
+    "Cholesterol": [180,185,190,200,210,220,230,240,250,260],
+    "HeartRate": [72,75,78,80,82,85,88,90,92,95],
+    "Risk": [0,0,0,0,0,1,1,1,1,1]
+}
+
+df = pd.DataFrame(data)
+
+print("Dataset:\n")
+print(df)
+
+# -------------------------
+# Features and Target
+# -------------------------
+
+X = df[["Age", "BP", "Cholesterol", "HeartRate"]]
+y = df["Risk"]
+
+# -------------------------
+# Split Data
+# -------------------------
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+# -------------------------
+# Train Model
+# -------------------------
+
+model = RandomForestClassifier(
+    n_estimators=100,
+    random_state=42
+)
+
+model.fit(X_train, y_train)
+
+# -------------------------
+# Predictions
+# -------------------------
+
+predictions = model.predict(X_test)
+
+# -------------------------
+# Evaluation
+# -------------------------
+
+accuracy = accuracy_score(y_test, predictions)
+
+print("\nAccuracy:", accuracy)
+
+print("\nClassification Report:\n")
+print(classification_report(y_test, predictions))
+
+# -------------------------
+# New Patient Prediction
+# -------------------------
+
+new_patient = [[58, 148, 235, 89]]
+
+result = model.predict(new_patient)
+
+if result[0] == 1:
+    print("\nPrediction: Heart Disease Risk")
+else:
+    print("\nPrediction: Healthy")
